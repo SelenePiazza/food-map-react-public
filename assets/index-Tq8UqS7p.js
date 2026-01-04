@@ -23579,6 +23579,7 @@ const PopUp = ({ place }) => {
 const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
   const mapRef = reactExports.useRef(null);
   const markerLayerRef = reactExports.useRef(null);
+  const previousMapStateRef = reactExports.useRef(null);
   const greenIcon = L$1.icon({
     iconUrl: "map-pin.svg",
     iconSize: [19, 48],
@@ -23599,13 +23600,19 @@ const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
     L$1.popup({
       offset: L$1.point(0, -15),
       minWidth: 300,
-      closeButton: false,
+      closeButton: true,
       autoClose: false,
-      closeOnClick: false
+      closeOnClick: true
+    }).on("remove", () => {
+      if (!onSelectPlace) return;
+      onSelectPlace(null);
     }).setLatLng([selectedPlace2.lat, selectedPlace2.lng]).setContent(container).openOn(mapRef.current);
   };
   reactExports.useEffect(() => {
-    mapRef.current = L$1.map("map");
+    mapRef.current = L$1.map("map", {
+      zoomDelta: 0.025,
+      wheelDebounceTime: 0
+    });
     L$1.tileLayer("https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}", {
       minZoom: 0,
       maxZoom: 20,
@@ -23661,10 +23668,18 @@ const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
     if (!mapRef.current) return;
     mapRef.current.closePopup();
     if (selectedPlace) {
+      previousMapStateRef.current = {
+        center: mapRef.current.getCenter(),
+        zoom: mapRef.current.getZoom()
+      };
       mapRef.current.setView([selectedPlace.lat, selectedPlace.lng], 16);
       showPopup(selectedPlace);
     } else {
-      mapRef.current.setView([40.9852369, 16.9652631], 5);
+      if (previousMapStateRef.current) {
+        mapRef.current.setView(previousMapStateRef.current.center, previousMapStateRef.current.zoom);
+      } else {
+        mapRef.current.setView([40.9852369, 16.9652631], 5);
+      }
     }
   }, [selectedPlace]);
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "map" });
