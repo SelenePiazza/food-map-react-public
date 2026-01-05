@@ -732,6 +732,21 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	-o-transition: -o-stroke-dashoffset 0.3s ease-out, -o-stroke-opacity 0.3s ease-in;
 	transition: stroke-dashoffset 0.3s ease-out, stroke-opacity 0.3s ease-in;
 }
+/**
+ * Food Map React - Main Stylesheet
+ * Architecture: BEM (Block Element Modifier)
+ * 
+ * Structure:
+ * - Base: Global resets and typography
+ * - Layout: Page structure and containers
+ * - Components: Modular component styles
+ * - Utilities: Responsive breakpoints and helpers
+ */
+
+/* Base Styles */
+
+/* Base Reset Styles */
+
 * {
   box-sizing: border-box;
 }
@@ -744,24 +759,76 @@ body {
   font-family: sans-serif;
 }
 
-.container {
+/* Layout Styles */
+
+/* Main Application Container Layout */
+
+.app-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
-.content {
+.app-content {
   position: relative;
   flex: 1;
   display: flex;
 }
 
-#map {
-  flex: 1;
-  height: 100%;
-  width: 100%;
-  z-index: 0;
+/* Component Styles */
+
+/* Header Component Styles - BEM Architecture */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0rem 2rem;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  gap: 0.75rem;
 }
+
+.header__logo {
+  width: 150px;
+}
+
+.header__search {
+  flex: 1;
+  margin: 0 2rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+}
+
+.header__toggle-sidebar-btn {
+  background-color: #ff3366;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.header__search-toggle-btn {
+  display: none;
+  background-color: white;
+  color: #ff3366;
+  border: 1px solid #ff3366;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sidebar Component Styles - BEM Architecture */
 
 .sidebar {
   position: absolute;
@@ -776,31 +843,7 @@ body {
   transition: all 180ms ease;
 }
 
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0rem 2rem;
-  background: white;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
-}
-
-.extended-card {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  border-radius: 16px;
-  padding: 16px;
-  width: 300px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  display: none;
-  z-index: 1000;
-}
+/* Card Component Styles - BEM Architecture */
 
 .card {
   box-sizing: content-box;
@@ -814,7 +857,6 @@ body {
     0 0 0 1px hsl(0, 0%, 92%),
     0 2px 6px rgba(0, 0, 0, 0.05);
   cursor: pointer;
-  transition: transform 0.2s ease;
   position: relative;
   border: 3px solid transparent;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
@@ -825,14 +867,14 @@ body {
   transform: scale(1.02);
 }
 
-.card.selected {
+.card--selected {
   border-color: #ff3366;
   transform: translateX(-16px);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   z-index: 5;
 }
 
-.card-image {
+.card__image {
   width: 48px;
   height: 48px;
   background-color: #4974a5;
@@ -841,45 +883,50 @@ body {
   display: flex;
 }
 
-.card-image img {
+.card__image img {
   flex: 1;
   margin: 12px;
 }
 
-.card-content {
+.card__content {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   gap: 0.25rem;
-
-  p {
-    margin: 0;
-  }
 }
 
-.title {
+.card__content p {
+  margin: 0;
+}
+
+.card__title {
   font-weight: bold;
   font-size: 14px;
 }
 
-.location {
+.card__location {
   font-size: 11px;
   color: #777;
 }
 
-.description {
+.card__description {
   font-size: 12px;
   color: #aaa;
 }
 
-.category-label {
+.card__date {
+  font-size: 11px;
+  color: #777;
+}
+
+.card__category-label {
   font-size: 14px;
   margin-top: 8px;
   color: #666;
 }
 
-.category-badge {
+.card__category-badge {
   display: inline-block;
   border: 1px solid #000;
   border-radius: 999px;
@@ -889,7 +936,48 @@ body {
   color: #000;
 }
 
-.close-btn {
+/* Map Component Styles - BEM Architecture */
+
+.map {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+
+.map__cluster {
+  background-color: transparent;
+  border-radius: 50%;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}
+
+.map__cluster-icon {
+  background-color: #4974a5;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+
+/* Popup Component Styles - BEM Architecture */
+
+.popup {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  width: 300px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  display: none;
+  z-index: 1000;
+}
+
+.popup__close-btn {
   position: absolute;
   top: 8px;
   right: 12px;
@@ -898,47 +986,55 @@ body {
   font-size: 16px;
 }
 
-.logo {
-  width: 150px;
-}
+/* Utilities */
 
-#searchBar {
-  flex: 1;
-  margin: 0 2rem;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-}
+/* Mobile Responsive Utilities */
 
-.toggle-sidebar {
-  background-color: #ff3366;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-.my-custom-cluster {
-  background-color: transparent;
-  border-radius: 50%;
-  text-align: center;
-  color: white;
-  font-weight: bold;
-}
-
-.custom-cluster-icon {
-  background-color: #4974a5;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-}
-
-/* Mobile responsive layout */
 @media (max-width: 768px) {
+  /* Header responsive styles */
+  .header {
+    padding: 0.5rem 1rem;
+    min-height: 60px;
+  }
+
+  .header__logo {
+    width: 120px;
+    height: 40px;
+    object-fit: contain;
+    flex: 1;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+  }
+
+  .header__logo--hidden {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+    overflow: hidden;
+    flex: 0;
+  }
+
+  .header__search-toggle-btn {
+    display: block;
+  }
+
+  .header__search {
+    opacity: 0;
+    margin: 0;
+    flex: 0;
+    width: 0;
+    height: 40px;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .header__search--visible {
+    opacity: 1;
+    flex: 1;
+    width: auto;
+    pointer-events: auto;
+  }
+
+  /* Sidebar responsive styles */
   .sidebar {
     position: fixed;
     bottom: 0;
@@ -957,13 +1053,14 @@ body {
     align-items: flex-start;
   }
 
+  /* Card responsive styles */
   .card {
     flex: 0 0 40vw;
     height: auto;
     margin-bottom: 0;
   }
 
-  .card.selected {
+  .card--selected {
     transform: translateY(-16px);
   }
 }

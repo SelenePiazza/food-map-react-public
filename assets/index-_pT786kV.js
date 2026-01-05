@@ -12073,10 +12073,27 @@ function requireClient() {
 var clientExports = requireClient();
 const ReactDOM = /* @__PURE__ */ getDefaultExportFromCjs(clientExports);
 const Header = ({ onToggleSidebar, onQuery }) => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "topbar", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("img", { className: "logo", src: "./Logo.png", alt: "Logo" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "text", id: "searchBar", placeholder: "Cerca per nome o parola chiave", onChange: onQuery }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "toggle-sidebar", onClick: onToggleSidebar, children: "☰" })
+  const [isSearchOpen, setIsSearchOpen] = reactExports.useState(false);
+  const handleSearchToggle = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "header", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "header__search-toggle-btn", onClick: handleSearchToggle, "aria-label": "Toggle search", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "11", cy: "11", r: "8" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "m21 21-4.35-4.35" })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("img", { className: `header__logo ${isSearchOpen ? "header__logo--hidden" : ""}`, src: "./Logo.png", alt: "Logo" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "input",
+      {
+        type: "text",
+        id: "searchBar",
+        className: `header__search ${isSearchOpen ? "header__search--visible" : ""}`,
+        placeholder: "Cerca per nome o parola chiave",
+        onChange: onQuery
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "header__toggle-sidebar-btn", onClick: onToggleSidebar, children: "☰" })
   ] });
 };
 var leafletSrc$1 = { exports: {} };
@@ -23561,19 +23578,19 @@ function requireLeaflet_markerclusterSrc() {
 requireLeaflet_markerclusterSrc();
 const PopUp = ({ place }) => {
   if (!place) return null;
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-content", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "title", id: "extTitle", children: place.name }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "location", id: "extAddress", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card__content", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "card__title", id: "extTitle", children: place.name }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "card__location", id: "extAddress", children: [
       "📍 ",
       place.indirizzo
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "date", id: "extDate", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "card__date", id: "extDate", children: [
       "📅 ",
       place.data
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "description", id: "extDescription", children: place.descrizione }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "category-label", children: "Categoria:" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "category-badge", id: "extCategory", children: place.categoria })
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "card__description", id: "extDescription", children: place.descrizione }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "card__category-label", children: "Categoria:" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "card__category-badge", id: "extCategory", children: place.categoria })
   ] });
 };
 const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
@@ -23646,8 +23663,8 @@ const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
           iconCreateFunction: function(cluster) {
             const count = cluster.getChildCount();
             return L$1.divIcon({
-              html: `<div class="custom-cluster-icon">${count}</div>`,
-              className: "my-custom-cluster",
+              html: `<div class="map__cluster-icon">${count}</div>`,
+              className: "map__cluster",
               iconSize: L$1.point(30, 30)
             });
           }
@@ -23682,7 +23699,7 @@ const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
       }
     }
   }, [selectedPlace]);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "map" });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "map", className: "map" });
 };
 const Card = ({ place, onSelect, selected }) => {
   const scrollRef = reactExports.useRef(null);
@@ -23696,15 +23713,15 @@ const Card = ({ place, onSelect, selected }) => {
       onSelect(selected ? null : place);
     }
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ref: scrollRef, className: `card ${selected ? "selected" : ""}`, onClick: handleClick, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "card-image", children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: `icons/${place.icon}.svg`, alt: place.name }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-content", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "title", children: place.name }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "location", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ref: scrollRef, className: `card ${selected ? "card--selected" : ""}`, onClick: handleClick, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "card__image", children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: `icons/${place.icon}.svg`, alt: place.name }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card__content", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "card__title", children: place.name }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "card__location", children: [
         "📍",
         place.indirizzo_short
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "description", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "card__description", children: [
         place.descrizione?.slice(0, 50),
         "..."
       ] })
@@ -26314,9 +26331,9 @@ const App = () => {
       setIsSidebarOpen(true);
     }
   }, [loading, places]);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "app-container", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Header, { onToggleSidebar: handleToggleSidebar, onQuery: handleQuery }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "content", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "app-content", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Map$1, { places: filteredPlaces, onSelectPlace: handleSelectPlace, selectedPlace }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Sidebar, { isSidebarOpen, places: filteredPlaces, onSelectPlace: handleSelectPlace, selectedPlace })
     ] })
