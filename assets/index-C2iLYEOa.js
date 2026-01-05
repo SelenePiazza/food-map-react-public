@@ -23576,21 +23576,45 @@ function requireLeaflet_markerclusterSrc() {
   return leaflet_markerclusterSrc$1.exports;
 }
 requireLeaflet_markerclusterSrc();
-const PopUp = ({ place }) => {
+const MapPopUp = ({ place }) => {
   if (!place) return null;
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card__content", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "card__title", id: "extTitle", children: place.name }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "card__location", id: "extAddress", children: [
-      "📍 ",
-      place.indirizzo
+  const categories = place.categoria?.split(",").map((cat) => cat.trim().toUpperCase()) || [];
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "map-popup", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "map-popup__header", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "map-popup__icon-container", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "img",
+        {
+          src: `icons/${place.icon}.svg`,
+          alt: place.categoria,
+          className: "map-popup__icon"
+        }
+      ) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "map-popup__title", children: place.name })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "card__date", id: "extDate", children: [
-      "📅 ",
-      place.data
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "card__description", id: "extDescription", children: place.descrizione }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "card__category-label", children: "Categoria:" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "card__category-badge", id: "extCategory", children: place.categoria })
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "map-popup__content", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "map-popup__item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "map-popup__icon-text", children: "📍" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "map-popup__item-content", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "map-popup__item-label", children: "Indirizzo" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "map-popup__item-value", children: place.indirizzo })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "map-popup__item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "map-popup__icon-text", children: "📅" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "map-popup__item-content", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "map-popup__item-label", children: "Data" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "map-popup__item-value", children: place.data })
+        ] })
+      ] }),
+      place.descrizione && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "map-popup__description-section", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "map-popup__item-label", children: "Descrizione" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "map-popup__description-text", children: place.descrizione })
+      ] }),
+      categories.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "map-popup__categories-section", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "map-popup__item-label", children: "Categoria" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "map-popup__categories", children: categories.map((cat, index) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "map-popup__category-badge", children: cat }, index)) })
+      ] })
+    ] })
   ] });
 };
 const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
@@ -23608,7 +23632,7 @@ const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
     const root2 = ReactDOM.createRoot(container);
     root2.render(
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        PopUp,
+        MapPopUp,
         {
           place: selectedPlace2
         }
@@ -23701,7 +23725,7 @@ const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
   }, [selectedPlace]);
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "map", className: "map" });
 };
-const Card = ({ place, onSelect, selected }) => {
+const SidebarCard = ({ place, onSelect, selected }) => {
   const scrollRef = reactExports.useRef(null);
   reactExports.useEffect(() => {
     if (selected && scrollRef.current) {
@@ -23713,32 +23737,41 @@ const Card = ({ place, onSelect, selected }) => {
       onSelect(selected ? null : place);
     }
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ref: scrollRef, className: `card ${selected ? "card--selected" : ""}`, onClick: handleClick, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "card__image", children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: `icons/${place.icon}.svg`, alt: place.name }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card__content", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "card__title", children: place.name }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "card__location", children: [
-        "📍",
-        place.indirizzo_short
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "card__description", children: [
-        place.descrizione?.slice(0, 50),
-        "..."
-      ] })
-    ] })
-  ] });
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      ref: scrollRef,
+      className: `sidebar-card ${selected ? "sidebar-card--selected" : ""}`,
+      onClick: handleClick,
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sidebar-card__image", children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: `icons/${place.icon}.svg`, alt: place.name }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sidebar-card__content", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "sidebar-card__title", children: place.name }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "sidebar-card__location", children: [
+            "📍",
+            place.indirizzo_short
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "sidebar-card__description", children: [
+            place.descrizione?.slice(0, 50),
+            "..."
+          ] })
+        ] })
+      ]
+    }
+  );
 };
 const Sidebar = ({ isSidebarOpen, places, onSelectPlace, selectedPlace }) => {
   if (!isSidebarOpen) {
     return null;
   }
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sidebar", id: "sidebar", children: places.map((place) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-    Card,
+    SidebarCard,
     {
       place,
       onSelect: onSelectPlace,
       selected: selectedPlace?.name === place.name
-    }
+    },
+    place.name
   )) });
 };
 function bind(fn, thisArg) {
