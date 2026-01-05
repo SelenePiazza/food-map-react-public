@@ -1018,6 +1018,10 @@ body {
   .sidebar-card--selected {
     transform: translateY(-16px);
   }
+
+  .sidebar-card--selected:hover {
+    transform: translateY(-16px) scale(1.0);
+  }
 }
 
 /* Map Component Styles - BEM Architecture */
@@ -1071,8 +1075,6 @@ body {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  min-width: 280px;
-  max-width: 320px;
 
   p {
     margin: 0;
@@ -1214,21 +1216,4 @@ body {
   border: none;
   white-space: nowrap;
   box-shadow: 0 2px 8px rgba(255, 51, 102, 0.25);
-}
-
-/* Responsive adjustments */
-
-@media (max-width: 480px) {
-  .map-popup {
-    min-width: 260px;
-    max-width: 280px;
-  }
-
-  .map-popup__title {
-    font-size: 15px;
-  }
-
-  .map-popup__item-value {
-    font-size: 12px;
-  }
 }
