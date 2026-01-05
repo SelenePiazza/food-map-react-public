@@ -23619,6 +23619,7 @@ const MapPopUp = ({ place }) => {
 };
 const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
   const mapRef = reactExports.useRef(null);
+  const popupRef = reactExports.useRef(null);
   const markerLayerRef = reactExports.useRef(null);
   const previousMapStateRef = reactExports.useRef(null);
   const greenIcon = L$1.icon({
@@ -23627,32 +23628,43 @@ const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
     iconAnchor: [9, 35],
     popupAnchor: [-3, -76]
   });
-  const showPopup = (selectedPlace2) => {
+  var CustomPopup = L$1.Popup.extend(
+    {
+      close: function() {
+        if (!onSelectPlace) return;
+        onSelectPlace(null);
+        L$1.Popup.prototype.close.call(this);
+      }
+    }
+  );
+  const showPopup = (place) => {
     const container = document.createElement("div");
     const root2 = ReactDOM.createRoot(container);
     root2.render(
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         MapPopUp,
         {
-          place: selectedPlace2
+          place
         }
       )
     );
-    L$1.popup({
-      offset: L$1.point(0, -15),
-      minWidth: 300,
-      closeButton: true,
-      autoClose: false,
-      closeOnClick: true
-    }).on("remove", () => {
-      if (!onSelectPlace) return;
-      onSelectPlace(null);
-    }).setLatLng([selectedPlace2.lat, selectedPlace2.lng]).setContent(container).openOn(mapRef.current);
+    popupRef.current = new CustomPopup(
+      {
+        offset: L$1.point(0, -15),
+        minWidth: 300,
+        closeButton: true,
+        autoClose: false,
+        closeOnClick: true
+      }
+    ).setLatLng([place.lat, place.lng]).setContent(container).openOn(mapRef.current);
   };
   reactExports.useEffect(() => {
     mapRef.current = L$1.map("map", {
       zoomDelta: 0.025,
-      wheelDebounceTime: 0
+      wheelDebounceTime: 0,
+      zoomControl: false,
+      minZoom: 3,
+      maxBounds: [[-90, -180], [90, 180]]
     });
     L$1.tileLayer("https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}", {
       minZoom: 0,
@@ -23682,8 +23694,8 @@ const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
       const markerLayer = L$1.markerClusterGroup(
         {
           showCoverageOnHover: false,
-          disableClusteringAtZoom: 16,
-          maxClusterRadius: 20,
+          disableClusteringAtZoom: 12,
+          maxClusterRadius: 12,
           iconCreateFunction: function(cluster) {
             const count = cluster.getChildCount();
             return L$1.divIcon({
@@ -23707,7 +23719,10 @@ const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
   }, [places, onSelectPlace]);
   reactExports.useEffect(() => {
     if (!mapRef.current) return;
-    mapRef.current.closePopup();
+    if (popupRef.current) {
+      popupRef.current.remove();
+      popupRef.current = null;
+    }
     if (selectedPlace) {
       previousMapStateRef.current = {
         center: mapRef.current.getCenter(),
