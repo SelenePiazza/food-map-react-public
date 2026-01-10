@@ -1173,6 +1173,11 @@ body {
   word-break: break-word;
 }
 
+.map-popup__item-value a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 /* Description Section */
 
 .map-popup__description-section {

@@ -23596,7 +23596,7 @@ const MapPopUp = ({ place }) => {
         /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "map-popup__icon-text", children: "📍" }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "map-popup__item-content", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "map-popup__item-label", children: "Indirizzo" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "map-popup__item-value", children: place.indirizzo })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "map-popup__item-value", children: /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name + ", " + place.indirizzo)}`, target: "_blank", rel: "noopener noreferrer", children: place.indirizzo }) })
         ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "map-popup__item", children: [
