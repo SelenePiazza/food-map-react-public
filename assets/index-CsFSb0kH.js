@@ -23728,7 +23728,14 @@ const Map$1 = ({ places = [], selectedPlace = null, onSelectPlace }) => {
         center: mapRef.current.getCenter(),
         zoom: mapRef.current.getZoom()
       };
-      mapRef.current.setView([selectedPlace.lat + 3e-3, selectedPlace.lng], 16);
+      const zoom = 16;
+      const markerPoint = mapRef.current.project(
+        [selectedPlace.lat, selectedPlace.lng],
+        zoom
+      );
+      markerPoint.y -= 120;
+      const shiftedCenter = mapRef.current.unproject(markerPoint, zoom);
+      mapRef.current.setView(shiftedCenter, zoom);
       showPopup(selectedPlace);
     } else {
       if (previousMapStateRef.current) {
