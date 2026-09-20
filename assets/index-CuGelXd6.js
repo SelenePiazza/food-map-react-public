@@ -12082,7 +12082,7 @@ const Header = ({ onToggleSidebar, onQuery }) => {
       /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "11", cy: "11", r: "8" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "m21 21-4.35-4.35" })
     ] }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("img", { className: `header__logo ${isSearchOpen ? "header__logo--hidden" : ""}`, src: "./Logo.png", alt: "Logo" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("img", { className: `header__logo ${isSearchOpen ? "header__logo--hidden" : ""}`, src: "/Logo.png?v=2", alt: "Logo" }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       "input",
       {
