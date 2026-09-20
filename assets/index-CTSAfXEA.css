@@ -973,6 +973,13 @@ body {
 .sidebar-card__title {
   font-weight: bold;
   font-size: 14px;
+  line-height: 1.2;
+  max-height: 2.4em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
 }
 
 .sidebar-card__location {
