@@ -912,7 +912,7 @@ body {
 /* SidebarCard Component Styles - BEM Architecture */
 
 .sidebar-card {
-  box-sizing: content-box;
+  box-sizing: border-box;
   display: flex;
   gap: 8px;
   background: white;
@@ -982,7 +982,14 @@ body {
 
 .sidebar-card__description {
   font-size: 12px;
+  line-height: 1.2;
+  max-height: 2.4em;
   color: #aaa;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
 }
 
 .sidebar-card__date {
@@ -1011,8 +1018,8 @@ body {
 @media (max-width: 768px) {
   .sidebar-card {
     flex: 0 0 40vw;
-    height: auto;
     margin-bottom: 0;
+    height: var(--sidebar-card-height, auto);
   }
 
   .sidebar-card--selected {

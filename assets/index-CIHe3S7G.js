@@ -23773,20 +23773,36 @@ const SidebarCard = ({ place, onSelect, selected }) => {
             "📍",
             place.indirizzo_short
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "sidebar-card__description", children: [
-            place.descrizione?.slice(0, 50),
-            "..."
-          ] })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "sidebar-card__description", children: place.descrizione })
         ] })
       ]
     }
   );
 };
 const Sidebar = ({ isSidebarOpen, places, onSelectPlace, selectedPlace }) => {
+  const sidebarRef = reactExports.useRef(null);
+  reactExports.useLayoutEffect(() => {
+    const sidebar = sidebarRef.current;
+    if (!sidebar) {
+      return;
+    }
+    const matchCardHeights = () => {
+      sidebar.style.removeProperty("--sidebar-card-height");
+      const cards = [...sidebar.querySelectorAll(".sidebar-card")];
+      const tallestCard = Math.max(...cards.map((card) => card.getBoundingClientRect().height), 0);
+      if (tallestCard > 0) {
+        sidebar.style.setProperty("--sidebar-card-height", `${tallestCard}px`);
+      }
+    };
+    matchCardHeights();
+    const resizeObserver = new ResizeObserver(matchCardHeights);
+    resizeObserver.observe(sidebar);
+    return () => resizeObserver.disconnect();
+  }, [isSidebarOpen, places]);
   if (!isSidebarOpen) {
     return null;
   }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sidebar", id: "sidebar", children: places.map((place) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sidebar", id: "sidebar", ref: sidebarRef, children: places.map((place) => /* @__PURE__ */ jsxRuntimeExports.jsx(
     SidebarCard,
     {
       place,
